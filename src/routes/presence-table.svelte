@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { type ColumnDef, getCoreRowModel } from "@tanstack/table-core";
+    import {
+        type ColumnDef,
+        type SortingState,
+        getCoreRowModel,
+        getSortedRowModel,
+    } from "@tanstack/table-core";
     import * as Table from "$lib/components/ui/table/index";
     import type { Presence } from "./presence-columns";
     import {
@@ -14,12 +19,27 @@
 
     let { data, columns }: DataTableProps<Presence> = $props();
 
+    let sorting = $state<SortingState>([]);
+
     const table = createSvelteTable({
         get data() {
             return data;
         },
         columns,
+        getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
+        onSortingChange: (updater) => {
+            if (typeof updater === "function") {
+                sorting = updater(sorting);
+            } else {
+                sorting = updater;
+            }
+        },
+        state: {
+            get sorting() {
+                return sorting;
+            },
+        },
     });
 </script>
 
@@ -29,12 +49,43 @@
             {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
                 <Table.Row>
                     {#each headerGroup.headers as header (header.id)}
-                        <Table.Head class={header.column.columnDef.meta?.headerClass}>
+                        <Table.Head
+                            class={header.column.columnDef.meta?.headerClass}
+                        >
                             {#if !header.isPlaceholder}
-                                <FlexRender
-                                    content={header.column.columnDef.header}
-                                    context={header.getContext()}
-                                />
+                                {@const enableSorting =
+                                    header.column.columnDef.enableSorting !==
+                                    false}
+                                <div
+                                    class={`flex ${enableSorting ? "cursor-pointer" : ""} items-center`}
+                                    role={enableSorting ? `button` : undefined}
+                                    tabindex={enableSorting ? "0" : undefined}
+                                    onclick={() => {
+                                        if (enableSorting) {
+                                            header.column.toggleSorting();
+                                        }
+                                    }}
+                                    onkeydown={(e) => {
+                                        if (
+                                            enableSorting &&
+                                            (e.key === "Enter" || e.key === " ")
+                                        ) {
+                                            header.column.toggleSorting();
+                                        }
+                                    }}
+                                >
+                                    <FlexRender
+                                        content={header.column.columnDef.header}
+                                        context={header.getContext()}
+                                    />
+                                    {#if header.column.getIsSorted() === "asc"}
+                                        <span class="m-1">↑</span>
+                                    {:else if header.column.getIsSorted() === "desc"}
+                                        <span class="m-1">↓</span>
+                                    {:else}
+                                        <span></span>
+                                    {/if}
+                                </div>
                             {/if}
                         </Table.Head>
                     {/each}
@@ -45,7 +96,9 @@
             {#each table.getRowModel().rows as row (row.id)}
                 <Table.Row data-state={row.getIsSelected() && "selected"}>
                     {#each row.getVisibleCells() as cell (cell.id)}
-                        <Table.Cell class={cell.column.columnDef.meta?.cellClass}>
+                        <Table.Cell
+                            class={cell.column.columnDef.meta?.cellClass}
+                        >
                             <FlexRender
                                 content={cell.column.columnDef.cell}
                                 context={cell.getContext()}

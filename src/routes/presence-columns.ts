@@ -1,6 +1,6 @@
 import { renderComponent } from "$lib/components/ui/data-table";
 import type { ColumnDef } from "@tanstack/table-core";
-import PresenceTableToggle from "./presence-table-toggle.svelte";
+import { Switch } from "$lib/components/ui/switch";
 
 export type Presence = {
     id: number;
@@ -13,17 +13,21 @@ export const columns: ColumnDef<Presence>[] = [
         accessorKey: "name",
         header: "Факултет",
         meta: {
-            headerClass: "w-full"
-        }
+            headerClass: "w-full",
+        },
     },
     {
         accessorKey: "is_present",
         header: "Присутност",
-        cell: () => {
-            return renderComponent(PresenceTableToggle, {});
+        cell: ({ cell }) => {
+            console.log(cell.getValue());
+            return renderComponent(Switch, {
+                checked: cell.getValue() as boolean,
+            });
         },
         meta: {
-            cellClass: "float-right"
-        }
+            cellClass: "float-right",
+        },
+        enableSorting: false,
     },
 ];
