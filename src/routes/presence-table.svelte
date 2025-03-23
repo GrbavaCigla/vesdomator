@@ -59,7 +59,7 @@
                         colspan={columns.length}
                         class="h-24 text-center"
                     >
-                        No results.
+                        Нема резултата.
                     </Table.Cell>
                 </Table.Row>
             {/each}
