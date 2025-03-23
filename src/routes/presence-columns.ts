@@ -12,6 +12,9 @@ export const columns: ColumnDef<Presence>[] = [
     {
         accessorKey: "name",
         header: "Факултет",
+        meta: {
+            headerClass: "w-full"
+        }
     },
     {
         accessorKey: "is_present",
@@ -19,5 +22,8 @@ export const columns: ColumnDef<Presence>[] = [
         cell: () => {
             return renderComponent(PresenceTableToggle, {});
         },
+        meta: {
+            cellClass: "float-right"
+        }
     },
 ];

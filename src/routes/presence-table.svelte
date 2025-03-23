@@ -29,7 +29,7 @@
             {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
                 <Table.Row>
                     {#each headerGroup.headers as header (header.id)}
-                        <Table.Head>
+                        <Table.Head class={header.column.columnDef.meta?.headerClass}>
                             {#if !header.isPlaceholder}
                                 <FlexRender
                                     content={header.column.columnDef.header}
@@ -45,7 +45,7 @@
             {#each table.getRowModel().rows as row (row.id)}
                 <Table.Row data-state={row.getIsSelected() && "selected"}>
                     {#each row.getVisibleCells() as cell (cell.id)}
-                        <Table.Cell>
+                        <Table.Cell class={cell.column.columnDef.meta?.cellClass}>
                             <FlexRender
                                 content={cell.column.columnDef.cell}
                                 context={cell.getContext()}
