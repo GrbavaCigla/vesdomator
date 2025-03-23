@@ -5,7 +5,7 @@ import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import tailwindcssAnimate from "tailwindcss-animate";
 
-export default {
+const config: Config = {
     darkMode: ["class"],
     content: ["./src/**/*.{html,js,svelte,ts}"],
     safelist: ["dark"],
@@ -76,7 +76,7 @@ export default {
                 sm: "calc(var(--radius) - 4px)",
             },
             fontFamily: {
-                sans: ["geist-sans", ...fontFamily.sans],
+                sans: [...fontFamily.sans],
             },
             keyframes: {
                 "accordion-down": {
@@ -99,6 +99,7 @@ export default {
             },
         },
     },
-
     plugins: [typography, forms, containerQueries, tailwindcssAnimate],
-} satisfies Config;
+};
+
+export default config;
