@@ -43,8 +43,8 @@
     });
 </script>
 
-<div class="rounded-md border">
-    <Table.Root class="table-auto w-full">
+<div class="rounded-md border shadow-sm">
+    <Table.Root class="w-full">
         <Table.Header>
             {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
                 <Table.Row>

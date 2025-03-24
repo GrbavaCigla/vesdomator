@@ -4,7 +4,6 @@
         ColumnDefTemplate,
         HeaderContext,
     } from "@tanstack/table-core";
-
     type TData = unknown;
     type TValue = unknown;
     type TContext = unknown;
@@ -18,6 +17,7 @@
         RenderComponentConfig,
         RenderSnippetConfig,
     } from "./render-helpers.js";
+
     type Props = {
         /** The cell or header field of the current cell's column definition. */
         content?: TContext extends HeaderContext<TData, TValue>

@@ -5,7 +5,7 @@
 </script>
 
 <Tabs.Root value="presence" class="w-full h-screen flex flex-col">
-    <Tabs.List>
+    <Tabs.List class="rounded-none">
         <Tabs.Trigger value="presence">Присутност</Tabs.Trigger>
         <Tabs.Trigger value="voting">Гласање</Tabs.Trigger>
     </Tabs.List>

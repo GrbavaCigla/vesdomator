@@ -99,7 +99,9 @@ const config: Config = {
             },
         },
     },
-    plugins: [typography, forms, containerQueries, tailwindcssAnimate],
+    // TODO: Bring back forms, forms cause input to have blue outline
+    // plugins: [typography, forms, containerQueries, tailwindcssAnimate],
+    plugins: [typography, containerQueries, tailwindcssAnimate],
 };
 
 export default config;
