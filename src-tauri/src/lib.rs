@@ -1,16 +1,13 @@
-mod types;
+mod commands;
 mod global;
+mod types;
 
-use types::Config;
-
-#[tauri::command]
-async fn load_config() -> Config {
-    Config { voters: vec![] }
-}
+use commands::load_config;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![load_config])
         .run(tauri::generate_context!())
