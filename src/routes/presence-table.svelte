@@ -2,8 +2,10 @@
     import {
         type ColumnDef,
         type SortingState,
+        type ColumnFiltersState,
         getCoreRowModel,
         getSortedRowModel,
+        getFilteredRowModel,
     } from "@tanstack/table-core";
     import * as Table from "$lib/components/ui/table/index";
     import type { Presence } from "./presence-columns";
@@ -11,6 +13,7 @@
         createSvelteTable,
         FlexRender,
     } from "$lib/components/ui/data-table/index.js";
+    import { presence_filter } from "$lib/stores/presence_filter";
 
     type DataTableProps<Presence> = {
         columns: ColumnDef<Presence>[];
@@ -20,6 +23,7 @@
     let { data, columns }: DataTableProps<Presence> = $props();
 
     let sorting = $state<SortingState>([]);
+    let columnFilters = $state<ColumnFiltersState>([]);
 
     const table = createSvelteTable({
         get data() {
@@ -28,6 +32,7 @@
         columns,
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
         onSortingChange: (updater) => {
             if (typeof updater === "function") {
                 sorting = updater(sorting);
@@ -35,11 +40,31 @@
                 sorting = updater;
             }
         },
+        onColumnFiltersChange: (updater) => {
+            if (typeof updater === "function") {
+                columnFilters = updater(columnFilters);
+            } else {
+                columnFilters = updater;
+            }
+        },
         state: {
             get sorting() {
                 return sorting;
             },
+            get columnFilters() {
+                return columnFilters;
+            },
         },
+    });
+
+    presence_filter.subscribe((val) => {
+        if (val === "absent") {
+            table.setColumnFilters([{id: "is_present", value: false}]);
+        } else if (val === "present") {
+            table.setColumnFilters([{id: "is_present", value: true}]);
+        } else {
+            table.setColumnFilters([]);
+        }
     });
 </script>
 

@@ -15,10 +15,10 @@
         <PresenceTable data={page.data.voters} {columns} />
     </div>
     <div class="flex flex-col gap-4">
+        <Search />
         <Button variant="outline">
             <Plus />Додај факултет
         </Button>
-        <Search />
         <PresenceTableFilters />
     </div>
 </div>
