@@ -65,11 +65,13 @@ export const CYR2LATN = {
     Џ: "Dž",
 };
 
-export const get_latn_from_cyr = (val: string) => {
-    return val
-        .split("")
-        .map((val: string) =>
-            CYR2LATN[val] && CYR2LATN[val] !== "" ? CYR2LATN[val] : val
-        )
-        .join("");
+export const get_latn_from_cyr = (val: string | null) => {
+    return val === null
+        ? null
+        : val
+              .split("")
+              .map((val: string) =>
+                  CYR2LATN[val] && CYR2LATN[val] !== "" ? CYR2LATN[val] : val
+              )
+              .join("");
 };

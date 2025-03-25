@@ -8,9 +8,7 @@ declare module "@tanstack/table-core" {
         headerClass?: string;
         cellClass?: string;
     }
-    interface FilterFns {
-        fuzzy: FilterFn<unknown>;
-    }
+    
     interface FilterMeta {
         itemRank: RankingInfo;
     }

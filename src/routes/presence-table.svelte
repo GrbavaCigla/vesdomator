@@ -28,14 +28,11 @@
     let columnFilters = $state<ColumnFiltersState>([]);
 
     const table = createSvelteTable({
-        filterFns: {
-            fuzzy: fuzzyFilter,
-        },
         get data() {
             return data;
         },
         columns,
-        globalFilterFn: "fuzzy",
+        globalFilterFn: fuzzyFilter,
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -55,9 +52,9 @@
         },
         onGlobalFilterChange: (updater) => {
             if (typeof updater === "function") {
-                columnFilters = updater($search_filter);
+                $search_filter = updater($search_filter);
             } else {
-                columnFilters = updater;
+                $search_filter = updater;
             }
         },
         state: {
@@ -97,10 +94,11 @@
                                 {@const enableSorting =
                                     header.column.columnDef.enableSorting !==
                                     false}
+                                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
                                 <div
                                     class={`flex ${enableSorting ? "cursor-pointer" : ""} items-center`}
                                     role={enableSorting ? `button` : undefined}
-                                    tabindex={enableSorting ? "0" : undefined}
+                                    tabindex={enableSorting ? 0 : undefined}
                                     onclick={() => {
                                         if (enableSorting) {
                                             header.column.toggleSorting();

@@ -7,10 +7,12 @@ import {
 } from "@tanstack/table-core";
 
 export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-    const itemRank = [
-        rankItem(row.getValue(columnId), value),
-        rankItem(get_latn_from_cyr(row.getValue(columnId)), value),
-    ].reduce((p, c) => (p.rank < c.rank ? c : p));
+    const itemRank = rankItem(
+        get_latn_from_cyr(row.getValue(columnId)),
+        get_latn_from_cyr(value)!,
+    );
+
+    itemRank.passed ? console.log(itemRank) : null;
 
     addMeta({
         itemRank,

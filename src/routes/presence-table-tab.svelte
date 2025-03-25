@@ -10,10 +10,11 @@
     import { page } from "$app/state";
     import { absent_voters } from "$lib/stores/absent_voters";
     import { search_filter } from "$lib/stores/search_filter";
+    import type { Faculty } from "$lib/models/faculty";
 
     let data = $derived(
-        page.data.voters.map((val: string) => {
-            return { name: val, is_present: !$absent_voters.has(val) };
+        page.data.voters.map((val: Faculty) => {
+            return { is_present: !$absent_voters.has(val.name), ...val };
         })
     );
 </script>

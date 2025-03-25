@@ -1,20 +1,42 @@
-import { renderComponent } from "$lib/components/ui/data-table";
+import { renderComponent, renderSnippet } from "$lib/components/ui/data-table";
 import type { ColumnDef } from "@tanstack/table-core";
 import PresenceTableSwitch from "./presence-table-switch.svelte";
+import { Badge } from "$lib/components/ui/badge";
+import { createRawSnippet } from "svelte";
 import { fuzzySort } from "$lib/filters/fuzzy";
 
 export type Presence = {
-    id: number;
     name: string;
+    short: string | undefined;
+    ubg: boolean;
     is_present: true;
 };
 
 export const columns: ColumnDef<Presence>[] = [
     {
+        accessorKey: "short",
+        header: "",
+        enableSorting: false,
+        cell: ({ cell }) => {
+            return cell.getValue() === null
+                ? ""
+                : renderComponent(Badge, {
+                      children: createRawSnippet(() => {
+                          return {
+                              render() {
+                                  return `<span>${cell.getValue()}</span>`;
+                              },
+                          };
+                      }),
+                  });
+        },
+        meta: {
+            cellClass: "float-right",
+        },
+    },
+    {
         accessorKey: "name",
         header: "Факултет",
-        filterFn: "fuzzy",
-        sortingFn: fuzzySort,
         meta: {
             headerClass: "w-full",
         },
@@ -22,6 +44,7 @@ export const columns: ColumnDef<Presence>[] = [
     {
         accessorKey: "is_present",
         header: "Присутност",
+        enableSorting: false,
         cell: ({ cell, row }) => {
             return renderComponent(PresenceTableSwitch, {
                 name: row.original.name,
@@ -31,6 +54,5 @@ export const columns: ColumnDef<Presence>[] = [
         meta: {
             cellClass: "float-right",
         },
-        enableSorting: false,
     },
 ];
