@@ -23,7 +23,7 @@ pub struct Faculty {
 #[serde(untagged)]
 pub enum FacultyOrString {
     Faculty(Faculty),
-    String(String)
+    String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]

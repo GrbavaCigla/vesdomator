@@ -8,7 +8,7 @@ declare module "@tanstack/table-core" {
         headerClass?: string;
         cellClass?: string;
     }
-    
+
     interface FilterMeta {
         itemRank: RankingInfo;
     }

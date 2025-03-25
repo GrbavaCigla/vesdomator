@@ -9,7 +9,7 @@ import {
 export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
     const itemRank = rankItem(
         get_latn_from_cyr(row.getValue(columnId)),
-        get_latn_from_cyr(value)!,
+        get_latn_from_cyr(value)!
     );
 
     itemRank.passed ? console.log(itemRank) : null;

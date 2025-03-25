@@ -9,7 +9,7 @@ pub async fn load_config() -> Config {
         Ok(c) => match c.text().await {
             Ok(cont) => match toml::from_str(&cont) {
                 Ok(conf) => conf,
-                Err(_) => toml::from_str(FALLBACK_CONFIG).unwrap()
+                Err(_) => toml::from_str(FALLBACK_CONFIG).unwrap(),
             },
             Err(_) => toml::from_str(FALLBACK_CONFIG).unwrap(),
         },
@@ -21,7 +21,7 @@ pub async fn load_config() -> Config {
             *voter = FacultyOrString::Faculty(Faculty {
                 name: name.to_owned(),
                 short: None,
-                ubg: false
+                ubg: false,
             })
         }
     }
