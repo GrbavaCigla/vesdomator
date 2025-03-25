@@ -105,23 +105,29 @@
 
 <div class="rounded-md border shadow-sm mr-2">
     <!-- TODO: This is a workaround because I cannot spend any more time on this -->
-    <ScrollArea class="h-[calc(100vh-2rem-36px)] w-full" scrollbarYClasses="absolute left-[calc(100%+0.125rem)]">
+    <ScrollArea
+        class="h-[calc(100vh-2rem-36px)] w-full"
+        scrollbarYClasses="absolute left-[calc(100%+0.125rem)]"
+    >
         <Table.Root class="w-full">
             <Table.Header>
                 {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
                     <Table.Row>
                         {#each headerGroup.headers as header (header.id)}
                             <Table.Head
-                                class={header.column.columnDef.meta?.headerClass}
+                                class={header.column.columnDef.meta
+                                    ?.headerClass}
                             >
                                 {#if !header.isPlaceholder}
                                     {@const enableSorting =
-                                        header.column.columnDef.enableSorting !==
-                                        false}
+                                        header.column.columnDef
+                                            .enableSorting !== false}
                                     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
                                     <div
                                         class={`flex ${enableSorting ? "cursor-pointer" : ""} items-center`}
-                                        role={enableSorting ? `button` : undefined}
+                                        role={enableSorting
+                                            ? `button`
+                                            : undefined}
                                         tabindex={enableSorting ? 0 : undefined}
                                         onclick={() => {
                                             if (enableSorting) {
@@ -131,14 +137,16 @@
                                         onkeydown={(e) => {
                                             if (
                                                 enableSorting &&
-                                                (e.key === "Enter" || e.key === " ")
+                                                (e.key === "Enter" ||
+                                                    e.key === " ")
                                             ) {
                                                 header.column.toggleSorting();
                                             }
                                         }}
                                     >
                                         <FlexRender
-                                            content={header.column.columnDef.header}
+                                            content={header.column.columnDef
+                                                .header}
                                             context={header.getContext()}
                                         />
                                         {#if header.column.getIsSorted() === "asc"}
@@ -182,5 +190,4 @@
             </Table.Body>
         </Table.Root>
     </ScrollArea>
-    
 </div>

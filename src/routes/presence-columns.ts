@@ -1,9 +1,8 @@
-import { renderComponent, renderSnippet } from "$lib/components/ui/data-table";
+import { renderComponent } from "$lib/components/ui/data-table";
 import type { ColumnDef } from "@tanstack/table-core";
 import PresenceTableSwitch from "./presence-table-switch.svelte";
-import { Badge } from "$lib/components/ui/badge";
-import { createRawSnippet } from "svelte";
 import { fuzzySort } from "$lib/filters/fuzzy";
+import PresenceTableBadges from "./presence-table-badges.svelte";
 
 export type Presence = {
     search_index: number;
@@ -23,19 +22,17 @@ export const columns: ColumnDef<Presence>[] = [
         accessorKey: "short",
         header: "",
         enableSorting: false,
-        cell: ({ cell }) => {
-            return cell.getValue() === null
-                ? ""
-                : renderComponent(Badge, {
-                      children: createRawSnippet(() => {
-                          return {
-                              render() {
-                                  return `<span>${cell.getValue()}</span>`;
-                              },
-                          };
-                      }),
-                  });
-        },
+        cell: ({ cell, row }) =>
+            renderComponent(PresenceTableBadges, {
+                badges: (cell.getValue() === null
+                    ? []
+                    : [{ text: cell.getValue() as string }]
+                ).concat(
+                    row.original.ubg
+                        ? [{ text: "УБГ", variant: "destructive" }]
+                        : []
+                ),
+            }),
         meta: {
             cellClass: "float-right",
         },
