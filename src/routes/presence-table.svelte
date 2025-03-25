@@ -97,18 +97,22 @@
     });
 
     presence_filter.subscribe((val) => {
-        table.setColumnFilters(toggle_filter(
-            $state.snapshot(columnFilters),
-            "is_present",
-            { absent: false, present: true, all: undefined }[val]
-        ));
+        table.setColumnFilters(
+            toggle_filter(
+                $state.snapshot(columnFilters),
+                "is_present",
+                { absent: false, present: true, all: undefined }[val]
+            )
+        );
     });
     university_filter.subscribe((val) => {
-        table.setColumnFilters(toggle_filter(
-            $state.snapshot(columnFilters),
-            "ubg",
-            { rest: false, ubg: true, all: undefined }[val]
-        ));
+        table.setColumnFilters(
+            toggle_filter(
+                $state.snapshot(columnFilters),
+                "ubg",
+                { rest: false, ubg: true, all: undefined }[val]
+            )
+        );
     });
 
     $effect(() => {
