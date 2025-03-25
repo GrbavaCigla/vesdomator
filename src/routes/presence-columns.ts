@@ -1,6 +1,7 @@
 import { renderComponent } from "$lib/components/ui/data-table";
 import type { ColumnDef } from "@tanstack/table-core";
 import PresenceTableSwitch from "./presence-table-switch.svelte";
+import { fuzzySort } from "$lib/filters/fuzzy";
 
 export type Presence = {
     id: number;
@@ -12,6 +13,8 @@ export const columns: ColumnDef<Presence>[] = [
     {
         accessorKey: "name",
         header: "Факултет",
+        filterFn: "fuzzy",
+        sortingFn: fuzzySort,
         meta: {
             headerClass: "w-full",
         },

@@ -14,6 +14,8 @@
         FlexRender,
     } from "$lib/components/ui/data-table/index.js";
     import { presence_filter } from "$lib/stores/presence_filter";
+    import { fuzzyFilter } from "$lib/filters/fuzzy";
+    import { search_filter } from "$lib/stores/search_filter";
 
     type DataTableProps<Presence> = {
         columns: ColumnDef<Presence>[];
@@ -26,10 +28,14 @@
     let columnFilters = $state<ColumnFiltersState>([]);
 
     const table = createSvelteTable({
+        filterFns: {
+            fuzzy: fuzzyFilter,
+        },
         get data() {
             return data;
         },
         columns,
+        globalFilterFn: "fuzzy",
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -47,12 +53,22 @@
                 columnFilters = updater;
             }
         },
+        onGlobalFilterChange: (updater) => {
+            if (typeof updater === "function") {
+                columnFilters = updater($search_filter);
+            } else {
+                columnFilters = updater;
+            }
+        },
         state: {
             get sorting() {
                 return sorting;
             },
             get columnFilters() {
                 return columnFilters;
+            },
+            get globalFilter() {
+                return $search_filter;
             },
         },
     });

@@ -9,6 +9,7 @@
 
     import { page } from "$app/state";
     import { absent_voters } from "$lib/stores/absent_voters";
+    import { search_filter } from "$lib/stores/search_filter";
 
     let data = $derived(
         page.data.voters.map((val: string) => {
@@ -22,7 +23,7 @@
         <PresenceTable {data} {columns} />
     </div>
     <div class="flex flex-col gap-4">
-        <Search />
+        <Search bind:value={$search_filter} />
         <Button variant="outline">
             <Plus />Додај факултет
         </Button>
