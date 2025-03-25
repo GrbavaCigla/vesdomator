@@ -13,8 +13,12 @@
     import type { Faculty } from "$lib/models/faculty";
 
     let data = $derived(
-        page.data.voters.map((val: Faculty) => {
-            return { is_present: !$absent_voters.has(val.name), ...val };
+        page.data.voters.map((val: Faculty, index: number) => {
+            return {
+                search_index: index + 1,
+                is_present: !$absent_voters.has(val.name),
+                ...val,
+            };
         })
     );
 </script>

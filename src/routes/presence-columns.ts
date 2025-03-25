@@ -6,6 +6,7 @@ import { createRawSnippet } from "svelte";
 import { fuzzySort } from "$lib/filters/fuzzy";
 
 export type Presence = {
+    search_index: number;
     name: string;
     short: string | undefined;
     ubg: boolean;
@@ -13,6 +14,11 @@ export type Presence = {
 };
 
 export const columns: ColumnDef<Presence>[] = [
+    {
+        accessorKey: "search_index",
+        enableGlobalFilter: false,
+        sortingFn: fuzzySort,
+    },
     {
         accessorKey: "short",
         header: "",
@@ -45,6 +51,7 @@ export const columns: ColumnDef<Presence>[] = [
         accessorKey: "is_present",
         header: "Присутност",
         enableSorting: false,
+        enableGlobalFilter: false,
         cell: ({ cell, row }) => {
             return renderComponent(PresenceTableSwitch, {
                 name: row.original.name,

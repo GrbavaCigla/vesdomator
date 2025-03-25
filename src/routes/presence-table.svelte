@@ -6,6 +6,8 @@
         getCoreRowModel,
         getSortedRowModel,
         getFilteredRowModel,
+        type ColumnSort,
+        type VisibilityState,
     } from "@tanstack/table-core";
     import * as Table from "$lib/components/ui/table/index";
     import type { Presence } from "./presence-columns";
@@ -24,8 +26,16 @@
 
     let { data, columns }: DataTableProps<Presence> = $props();
 
-    let sorting = $state<SortingState>([]);
+    const defaultSorting: ColumnSort = {
+        id: "search_index",
+        desc: false,
+    };
+
+    let sorting = $state<SortingState>([defaultSorting]);
     let columnFilters = $state<ColumnFiltersState>([]);
+    let columnVisibility = $state<VisibilityState>({
+        search_index: false,
+    });
 
     const table = createSvelteTable({
         get data() {
@@ -42,12 +52,20 @@
             } else {
                 sorting = updater;
             }
+            if (sorting.length === 0) sorting = [defaultSorting];
         },
         onColumnFiltersChange: (updater) => {
             if (typeof updater === "function") {
                 columnFilters = updater(columnFilters);
             } else {
                 columnFilters = updater;
+            }
+        },
+        onColumnVisibilityChange: (updater) => {
+            if (typeof updater === "function") {
+                columnVisibility = updater(columnVisibility);
+            } else {
+                columnVisibility = updater;
             }
         },
         onGlobalFilterChange: (updater) => {
@@ -66,6 +84,9 @@
             },
             get globalFilter() {
                 return $search_filter;
+            },
+            get columnVisibility() {
+                return columnVisibility;
             },
         },
     });

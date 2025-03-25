@@ -12,8 +12,6 @@ export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
         get_latn_from_cyr(value)!
     );
 
-    itemRank.passed ? console.log(itemRank) : null;
-
     addMeta({
         itemRank,
     });
@@ -24,11 +22,17 @@ export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
     let dir = 0;
 
-    if (rowA.columnFiltersMeta[columnId]) {
-        dir = compareItems(
-            rowA.columnFiltersMeta[columnId]?.itemRank!,
-            rowB.columnFiltersMeta[columnId]?.itemRank!
-        );
+    for (const [k, v] of Object.entries(rowA.columnFiltersMeta)) {
+        if (v && rowB.columnFiltersMeta[k]) {
+            console.log(v, rowB.columnFiltersMeta[k]);
+
+            dir = compareItems(
+                v?.itemRank!,
+                rowB.columnFiltersMeta[k]?.itemRank!
+            );
+        }
+
+        if (dir !== 0) break;
     }
 
     return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
