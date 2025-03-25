@@ -20,13 +20,25 @@ export const columns: ColumnDef<Presence>[] = [
     },
     {
         accessorKey: "short",
+        enableColumnFilter: false,
+        enableSorting: false,
+    },
+    {
+        accessorKey: "ubg",
+        enableGlobalFilter: false,
+        enableSorting: false,
+    },
+    {
+        id: "tags",
         header: "",
         enableSorting: false,
-        cell: ({ cell, row }) =>
+        enableColumnFilter: false,
+        enableGlobalFilter: false,
+        cell: ({ row }) =>
             renderComponent(PresenceTableBadges, {
-                badges: (cell.getValue() === null
+                badges: (row.original.short === null
                     ? []
-                    : [{ text: cell.getValue() as string }]
+                    : [{ text: row.original.short as string }]
                 ).concat(
                     row.original.ubg
                         ? [{ text: "УБГ", variant: "destructive" }]

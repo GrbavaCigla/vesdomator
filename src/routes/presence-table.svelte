@@ -15,10 +15,12 @@
         createSvelteTable,
         FlexRender,
     } from "$lib/components/ui/data-table/index.js";
-    import { presence_filter } from "$lib/stores/presence_filter";
     import { fuzzyFilter } from "$lib/filters/fuzzy";
     import { search_filter } from "$lib/stores/search_filter";
     import ScrollArea from "$lib/components/ui/scroll-area/scroll-area.svelte";
+    import { university_filter } from "$lib/stores/university_filter";
+    import { presence_filter } from "$lib/stores/presence_filter";
+    import { toggle_filter } from "$lib/utils/toggle_filter";
 
     type DataTableProps<Presence> = {
         columns: ColumnDef<Presence>[];
@@ -36,6 +38,8 @@
     let columnFilters = $state<ColumnFiltersState>([]);
     let columnVisibility = $state<VisibilityState>({
         search_index: false,
+        short: false,
+        ubg: false,
     });
 
     const table = createSvelteTable({
@@ -93,13 +97,22 @@
     });
 
     presence_filter.subscribe((val) => {
-        if (val === "absent") {
-            table.setColumnFilters([{ id: "is_present", value: false }]);
-        } else if (val === "present") {
-            table.setColumnFilters([{ id: "is_present", value: true }]);
-        } else {
-            table.setColumnFilters([]);
-        }
+        table.setColumnFilters(toggle_filter(
+            $state.snapshot(columnFilters),
+            "is_present",
+            { absent: false, present: true, all: undefined }[val]
+        ));
+    });
+    university_filter.subscribe((val) => {
+        table.setColumnFilters(toggle_filter(
+            $state.snapshot(columnFilters),
+            "ubg",
+            { rest: false, ubg: true, all: undefined }[val]
+        ));
+    });
+
+    $effect(() => {
+        $inspect(columnFilters);
     });
 </script>
 
