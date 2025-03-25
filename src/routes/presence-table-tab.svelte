@@ -23,7 +23,7 @@
     );
 </script>
 
-<div class="flex h-full gap-4 p-4">
+<div class="flex gap-4 p-4">
     <div class="flex-1">
         <PresenceTable {data} {columns} />
     </div>
