@@ -8,11 +8,18 @@
     import PresenceTableFilters from "./presence-table-filters.svelte";
 
     import { page } from "$app/state";
+    import { absent_voters } from "$lib/stores/absent_voters";
+
+    let data = $derived(
+        page.data.voters.map((val: string) => {
+            return { name: val, is_present: !$absent_voters.has(val) };
+        })
+    );
 </script>
 
 <div class="flex h-full gap-4 p-4">
     <div class="flex-1">
-        <PresenceTable data={page.data.voters} {columns} />
+        <PresenceTable {data} {columns} />
     </div>
     <div class="flex flex-col gap-4">
         <Search />

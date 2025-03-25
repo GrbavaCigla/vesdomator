@@ -59,9 +59,9 @@
 
     presence_filter.subscribe((val) => {
         if (val === "absent") {
-            table.setColumnFilters([{id: "is_present", value: false}]);
+            table.setColumnFilters([{ id: "is_present", value: false }]);
         } else if (val === "present") {
-            table.setColumnFilters([{id: "is_present", value: true}]);
+            table.setColumnFilters([{ id: "is_present", value: true }]);
         } else {
             table.setColumnFilters([]);
         }

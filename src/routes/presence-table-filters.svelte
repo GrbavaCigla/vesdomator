@@ -10,7 +10,8 @@
     ];
 
     const triggerContent = $derived(
-        presence_options.find((f) => f.value === $presence_filter)?.label ?? "Сви"
+        presence_options.find((f) => f.value === $presence_filter)?.label ??
+            "Сви"
     );
 </script>
 
