@@ -24,8 +24,6 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
 
     for (const [k, v] of Object.entries(rowA.columnFiltersMeta)) {
         if (v && rowB.columnFiltersMeta[k]) {
-            console.log(v, rowB.columnFiltersMeta[k]);
-
             dir = compareItems(
                 v?.itemRank!,
                 rowB.columnFiltersMeta[k]?.itemRank!
