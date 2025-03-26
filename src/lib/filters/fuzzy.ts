@@ -1,15 +1,22 @@
-import { get_latn_from_cyr } from "$lib/utils/transcript";
 import { compareItems, rankItem } from "@tanstack/match-sorter-utils";
 import {
     sortingFns,
     type FilterFn,
     type SortingFn,
 } from "@tanstack/table-core";
+import CyrLatConverter from "cyrlatconverter";
+
+const CyrLat = new CyrLatConverter().init();
 
 export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+
     const itemRank = rankItem(
-        get_latn_from_cyr(row.getValue(columnId)),
-        get_latn_from_cyr(value)!
+        row.getValue(columnId) !== null
+            ? CyrLat.getC2L(row.getValue(columnId))
+            : null,
+        value !== null && value !== undefined
+            ? CyrLat.getC2L(CyrLat.getL2C(value))
+            : null
     );
 
     addMeta({

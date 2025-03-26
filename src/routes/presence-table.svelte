@@ -114,10 +114,6 @@
             )
         );
     });
-
-    $effect(() => {
-        $inspect(columnFilters);
-    });
 </script>
 
 <div class="rounded-md border shadow-sm mr-2">

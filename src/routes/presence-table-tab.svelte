@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { Button } from "$lib/components/ui/button";
+    import { Button, buttonVariants } from "$lib/components/ui/button";
     import Search from "$lib/components/Search.svelte";
     import { Edit, ListRestart, Plus, Trash } from "@lucide/svelte";
+    import * as Dialog from "$lib/components/ui/dialog";
 
     import { columns } from "./presence-columns";
     import PresenceTable from "./presence-table.svelte";
@@ -12,6 +13,7 @@
     import { search_filter } from "$lib/stores/search_filter";
     import type { Faculty } from "$lib/models/faculty";
     import { ask } from "@tauri-apps/plugin-dialog";
+    import AddFacultyDialog from "$lib/components/dialogs/AddFacultyDialog.svelte";
 
     let data = $derived(
         page.data.voters.map((val: Faculty, index: number) => {
@@ -38,9 +40,14 @@
     </div>
     <div class="flex flex-col gap-4">
         <Search bind:value={$search_filter} />
-        <Button>
-            <Plus />Додај факултет
-        </Button>
+
+        <Dialog.Root>
+            <Dialog.Trigger class={buttonVariants({ variant: "default" })}>
+                <Plus />Додај факултет
+            </Dialog.Trigger>
+            <AddFacultyDialog />
+        </Dialog.Root>
+
         <PresenceTableFilters />
         <Button
             variant="outline"
