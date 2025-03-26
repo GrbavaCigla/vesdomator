@@ -34,6 +34,7 @@
             <Label for="name" class="text-right">Име</Label>
             <Input
                 id="name"
+                placeholder="Електротехнички факултет"
                 class={`col-span-2${errors.name.error ? " border-red-500 !ring-red-500" : ""}`}
                 bind:value={form.name}
             />
@@ -48,6 +49,7 @@
             <Label for="short" class="text-right">Скраћеница</Label>
             <Input
                 id="short"
+                placeholder="ЕТФ"
                 class={`col-span-2${errors.short.error ? " border-red-500 !ring-red-500" : ""}`}
                 bind:value={form.short}
             />
