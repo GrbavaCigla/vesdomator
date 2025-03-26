@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button";
     import Search from "$lib/components/Search.svelte";
-    import { ListRestart, Plus, Trash } from "@lucide/svelte";
+    import { Edit, ListRestart, Plus, Trash } from "@lucide/svelte";
 
     import { columns } from "./presence-columns";
     import PresenceTable from "./presence-table.svelte";
@@ -30,12 +30,16 @@
     </div>
     <div class="flex flex-col gap-4">
         <Search bind:value={$search_filter} />
-        <Button variant="outline">
+        <Button>
             <Plus />Додај факултет
         </Button>
         <PresenceTableFilters />
-        <Button variant="destructive" onclick={() => $absent_voters.clear()}>
+        <Button variant="outline" onclick={() => $absent_voters.clear()}>
             <ListRestart /> Ресетуј изостанке
         </Button>
+        <div class="flex gap-4 flex-col lg:flex-row">
+            <Button variant="outline"><Edit /> Измени факултет</Button>
+            <Button variant="destructive"><Trash /> Избриши факултет</Button>
+        </div>
     </div>
 </div>
