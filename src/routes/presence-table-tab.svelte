@@ -11,7 +11,7 @@
     import { absent_voters } from "$lib/stores/absent_voters";
     import { search_filter } from "$lib/stores/search_filter";
     import type { Faculty } from "$lib/models/faculty";
-    import { invalidateAll } from "$app/navigation";
+    import { ask } from "@tauri-apps/plugin-dialog";
 
     let data = $derived(
         page.data.voters.map((val: Faculty, index: number) => {
@@ -22,6 +22,14 @@
             };
         })
     );
+
+    const reset_absences = async () => {
+        const confirmation = await ask(
+            "Да ли сте сигурни да желите да ресетујете изостанке?",
+            { title: "Ресетовање изостанака", kind: "info" }
+        );
+        if (confirmation) $absent_voters.clear();
+    };
 </script>
 
 <div class="flex gap-4 p-4">
@@ -34,7 +42,11 @@
             <Plus />Додај факултет
         </Button>
         <PresenceTableFilters />
-        <Button variant="outline" onclick={() => $absent_voters.clear()}>
+        <Button
+            variant="outline"
+            onclick={reset_absences}
+            disabled={$absent_voters.size === 0}
+        >
             <ListRestart /> Ресетуј изостанке
         </Button>
         <div class="flex gap-4 flex-col lg:flex-row">
