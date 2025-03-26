@@ -13,7 +13,7 @@
 
     const university_options = [
         { value: "all", label: "Сви" },
-        { value: "ubg", label: "УБГ" },
+        { value: "ubg", label: "УБ" },
         { value: "rest", label: "Остали" },
     ];
 

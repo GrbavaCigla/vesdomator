@@ -41,7 +41,7 @@ export const columns: ColumnDef<Presence>[] = [
                     : [{ text: row.original.short as string }]
                 ).concat(
                     row.original.ubg
-                        ? [{ text: "УБГ", variant: "destructive" }]
+                        ? [{ text: "УБ", variant: "destructive" }]
                         : []
                 ),
             }),
