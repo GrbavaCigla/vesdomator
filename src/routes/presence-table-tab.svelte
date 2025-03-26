@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button";
     import Search from "$lib/components/Search.svelte";
-    import { Plus } from "@lucide/svelte";
+    import { ListRestart, Plus, Trash } from "@lucide/svelte";
 
     import { columns } from "./presence-columns";
     import PresenceTable from "./presence-table.svelte";
@@ -11,6 +11,7 @@
     import { absent_voters } from "$lib/stores/absent_voters";
     import { search_filter } from "$lib/stores/search_filter";
     import type { Faculty } from "$lib/models/faculty";
+    import { invalidateAll } from "$app/navigation";
 
     let data = $derived(
         page.data.voters.map((val: Faculty, index: number) => {
@@ -33,5 +34,8 @@
             <Plus />Додај факултет
         </Button>
         <PresenceTableFilters />
+        <Button variant="destructive" onclick={() => $absent_voters.clear()}>
+            <ListRestart /> Ресетуј изостанке
+        </Button>
     </div>
 </div>
