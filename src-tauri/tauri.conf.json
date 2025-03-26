@@ -14,9 +14,9 @@
             {
                 "title": "vesdomator",
                 "width": 800,
-                "minWidth": 600,
+                "minWidth": 800,
                 "height": 600,
-                "minHeight": 500
+                "minHeight": 450
             }
         ],
         "security": {
